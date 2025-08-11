@@ -1,0 +1,35 @@
+# HOWTO use this
+# $ docker build -f ./scripts/dockerfile -t ros2_playground:latest .
+
+FROM osrf/ros:humble-desktop-full
+
+ENV ACCEPT_EULA=Y
+ENV PRIVACY_CONSENT=Y
+
+# apt deps
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    libeigen3-dev \
+    netcat \
+    ffmpeg \
+    bash \
+    jq \
+    vim
+
+RUN apt-get update && apt-get -y upgrade && \
+    apt-get install -q -y --no-install-recommends \
+    ros-dev-tools \
+    ros-humble-ros-base \
+    ros-humble-desktop \
+    ros-humble-image-transport \
+    ros-humble-image-transport-plugins \
+    ros-humble-compressed-image-transport \
+    ros-humble-rmw-cyclonedds-cpp \
+    ros-humble-cyclonedds \
+    console-data \
+    git-lfs \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+CMD ["bash"]
