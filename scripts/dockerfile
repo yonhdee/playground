@@ -5,10 +5,24 @@ FROM osrf/ros:humble-desktop-full
 
 ENV ACCEPT_EULA=Y
 ENV PRIVACY_CONSENT=Y
+ENV DEBIAN_FRONTEND=noninteractive
+
+# use mirrors
+RUN sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak && sudo sed -i 's|http://.*archive.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list && sudo sed -i 's|http://.*security.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list
+# RUN sudo sed -i 's|http://packages.ros.org/ros2/ubuntu|http://mirrors.tuna.tsinghua.edu.cn/ros2/ubuntu|g' /etc/apt/sources.list.d/ros2.sources
+RUN rm /etc/apt/sources.list.d/ros2.sources
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key  -o /usr/share/keyrings/ros-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] https://mirrors.tuna.tsinghua.edu.cn/ros2/ubuntu jammy main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
 # apt deps
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get -y upgrade && \
+    apt-get install -q -y --no-install-recommends \
     build-essential \
+    dialog \
+    apt-utils \
+    wget \
+    curl \
+    gnupg2 \
     cmake \
     libeigen3-dev \
     netcat \
@@ -27,9 +41,17 @@ RUN apt-get update && apt-get -y upgrade && \
     ros-humble-compressed-image-transport \
     ros-humble-rmw-cyclonedds-cpp \
     ros-humble-cyclonedds \
+    ros-humble-joint-state-publisher \
+    ros-humble-joint-state-publisher-gui \
     console-data \
     git-lfs \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
+
+
+# RUN apt-get update && apt-get -y upgrade && \
+#     apt-get install -q -y --no-install-recommends \
+#     \ 
+#     && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]
