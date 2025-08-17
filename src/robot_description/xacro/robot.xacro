@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<robot name="demo" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="PI" value="${pi}" />
+  <xacro:property name="PI_2" value="${pi / 2.0}" />
+  <xacro:property name="PI_3" value="${pi / 3.0}" />
+  <xacro:property name="PI_4" value="${pi / 4.0}" />
+  <xacro:property name="PI_6" value="${pi / 6.0}" />
+  <xacro:property name="PI_12" value="${pi / 12.0}" />
+  <!-- base -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+  <!-- links -->
+  <!-- body -->
+  <link name="body0_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/body_link0.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/body_link0.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="body1p_link" />
+  <link name="body1_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/body_link1.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/body_link1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="body2p_link" />
+  <link name="body2_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/body_link2.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/body_link2.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- arm -->
+  <link name="arm_base_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_base_link.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_base_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- head -->
+  <link name="head0_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/head_link0.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/head_link0.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="head1_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/head_link1.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/head_link1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="head2_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/head_link2.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/head_link2.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- joints -->
+  <!-- body -->
+  <joint name="base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="body0_link"/>
+  </joint>
+  <joint name="body1p_joint" type="revolute">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="body0_link"/>
+    <child link="body1p_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${radians(6)}" upper="${radians(6)}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="body1y_joint" type="revolute">
+    <origin xyz="0.04 0.0 0.18"/>
+    <parent link="body1p_link"/>
+    <child link="body1_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-${PI_6}" upper="${PI_6}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="body2p_joint" type="revolute">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="body1_link"/>
+    <child link="body2p_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${radians(6)}" upper="${radians(7)}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="body2y_joint" type="revolute">
+    <origin xyz="0.01 0.0 0.14"/>
+    <parent link="body2p_link"/>
+    <child link="body2_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-${PI_6}" upper="${PI_6}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <!-- arm -->
+  <joint name="arm_base_joint" type="fixed">
+    <origin xyz="-0.036 0.0 0.008"/>
+    <parent link="body2_link"/>
+    <child link="arm_base_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <!-- head -->
+  <joint name="head0_joint" type="revolute">
+    <origin xyz="-0.016 0.0 0.073"/>
+    <parent link="arm_base_link"/>
+    <child link="head0_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${PI_12}" upper="${PI_6}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="head1_joint" type="revolute">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="head0_link"/>
+    <child link="head1_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-${PI_2}" upper="${PI_2}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="head2_joint" type="revolute">
+    <origin xyz="0.045 0.0 0.185"/>
+    <parent link="head1_link"/>
+    <child link="head2_link"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-${PI_12}" upper="${PI_12}" effort="30" velocity="${PI_4}"/>
+  </joint>
+
+</robot>
