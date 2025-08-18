@@ -54,19 +54,6 @@
       </geometry>
     </collision>
   </link>
-  <!-- arm -->
-  <link name="arm_base_link">
-    <visual>
-      <geometry>
-        <mesh filename="file://$(find robot_description)/meshes/demo/arm_base_link.stl"/>
-      </geometry>
-    </visual>
-    <collision>
-      <geometry>
-        <mesh filename="file://$(find robot_description)/meshes/demo/arm_base_link.stl"/>
-      </geometry>
-    </collision>
-  </link>
   <!-- head -->
   <link name="head0_link">
     <visual>
@@ -104,6 +91,69 @@
       </geometry>
     </collision>
   </link>
+  <!-- arm -->
+  <link name="arm_base_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_base_link.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_base_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_l0_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link0.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link0.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_l1_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link1.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_l2_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link2.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link2.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_r0_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 ${PI}"/>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link0.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 ${PI}"/>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link0.stl"/>
+      </geometry>
+    </collision>
+  </link>
   <!-- joints -->
   <!-- body -->
   <joint name="base_joint" type="fixed">
@@ -138,13 +188,6 @@
     <axis xyz="0 0 1"/>
     <limit lower="-${PI_6}" upper="${PI_6}" effort="30" velocity="${PI_4}"/>
   </joint>
-  <!-- arm -->
-  <joint name="arm_base_joint" type="fixed">
-    <origin xyz="-0.036 0.0 0.008"/>
-    <parent link="body2_link"/>
-    <child link="arm_base_link"/>
-    <axis xyz="0 0 0"/>
-  </joint>
   <!-- head -->
   <joint name="head0_joint" type="revolute">
     <origin xyz="-0.016 0.0 0.073"/>
@@ -161,11 +204,45 @@
     <limit lower="-${PI_2}" upper="${PI_2}" effort="30" velocity="${PI_4}"/>
   </joint>
   <joint name="head2_joint" type="revolute">
-    <origin xyz="0.045 0.0 0.185"/>
+    <origin xyz="0.045 0.0 0.165"/>
     <parent link="head1_link"/>
     <child link="head2_link"/>
     <axis xyz="1 0 0"/>
     <limit lower="-${PI_12}" upper="${PI_12}" effort="30" velocity="${PI_4}"/>
   </joint>
-
+  <!-- arm -->
+  <joint name="arm_base_joint" type="fixed">
+    <origin xyz="-0.036 0.0 0.008"/>
+    <parent link="body2_link"/>
+    <child link="arm_base_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <joint name="arm_l0_joint" type="revolute">
+    <origin xyz="-0.015335 0.14 0.057294"/>
+    <parent link="arm_base_link"/>
+    <child link="arm_l0_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${PI_2}" upper="${PI_2}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="arm_l1_joint" type="revolute">
+    <origin xyz="0.0 0.0 0.0" rpy="${PI_2} 0 0"/>
+    <parent link="arm_l0_link"/>
+    <child link="arm_l1_link"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-${PI_2}" upper="0" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="arm_l2_joint" type="revolute">
+    <origin xyz="0.0 0.0 -0.1525"/>
+    <parent link="arm_l1_link"/>
+    <child link="arm_l2_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-${PI_2}" upper="${PI_2}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="arm_r0_joint" type="revolute">
+    <origin xyz="-0.015335 -0.14 0.057294"/>
+    <parent link="arm_base_link"/>
+    <child link="arm_r0_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${PI_2}" upper="${PI_2}" effort="30" velocity="${PI_4}"/>
+  </joint>
 </robot>
