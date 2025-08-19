@@ -140,6 +140,43 @@
       </geometry>
     </collision>
   </link>
+  <link name="arm_l3_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link3.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link3.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_l4_link" />
+  <link name="arm_l5_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link4.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/arm_link4.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_l6_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/hand_link0.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find robot_description)/meshes/demo/hand_link0.stl"/>
+      </geometry>
+    </collision>
+  </link>
   <link name="arm_r0_link">
     <visual>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 ${PI}"/>
@@ -236,6 +273,34 @@
     <parent link="arm_l1_link"/>
     <child link="arm_l2_link"/>
     <axis xyz="0 0 1"/>
+    <limit lower="-${PI_2}" upper="${PI_2}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="arm_l3_joint" type="revolute">
+    <origin xyz="0.01 0.0 -0.04"/>
+    <parent link="arm_l2_link"/>
+    <child link="arm_l3_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${PI_2}" upper="0" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="arm_l4_joint" type="revolute">
+    <origin xyz="-0.01 0.0 -0.165"/>
+    <parent link="arm_l3_link"/>
+    <child link="arm_l4_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-${PI_2}" upper="${PI_2}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="arm_l5_joint" type="revolute">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="arm_l4_link"/>
+    <child link="arm_l5_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${PI_12}" upper="${PI_12}" effort="30" velocity="${PI_4}"/>
+  </joint>
+  <joint name="arm_l6_joint" type="revolute">
+    <origin xyz="0.0 0.0 -0.05"/>
+    <parent link="arm_l5_link"/>
+    <child link="arm_l6_link"/>
+    <axis xyz="1 0 0"/>
     <limit lower="-${PI_2}" upper="${PI_2}" effort="30" velocity="${PI_4}"/>
   </joint>
   <joint name="arm_r0_joint" type="revolute">
